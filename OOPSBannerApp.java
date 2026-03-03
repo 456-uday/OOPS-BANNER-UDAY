@@ -1,52 +1,74 @@
+import java.util.*;
+
 public class OOPSBannerApp {
+
+    // Static Inner Class to store character and pattern
+    static class CharacterPattern {
+        private char character;
+        private String[] pattern;
+
+        // Constructor
+        public CharacterPattern(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
+
+        // Getter methods
+        public char getCharacter() {
+            return character;
+        }
+
+        public String[] getPattern() {
+            return pattern;
+        }
+    }
 
     public static void main(String[] args) {
 
-        String[] banner = {
+        // Map to store all character patterns
+        Map<Character, CharacterPattern> patternMap = new HashMap<>();
 
-            String.join("   ", printO(1), printO(1), printP(1), printS(1)),
-            String.join("   ", printO(2), printO(2), printP(2), printS(2)),
-            String.join("   ", printO(3), printO(3), printP(3), printS(3)),
-            String.join("   ", printO(4), printO(4), printP(4), printS(4)),
-            String.join("   ", printO(5), printO(5), printP(5), printS(5))
+        // Add O pattern
+        patternMap.put('O', new CharacterPattern('O', new String[]{
+                "OOOO",
+                "O  O",
+                "O  O",
+                "O  O",
+                "OOOO"
+        }));
 
-        };
+        // Add P pattern
+        patternMap.put('P', new CharacterPattern('P', new String[]{
+                "PPPP",
+                "P  P",
+                "PPPP",
+                "P   ",
+                "P   "
+        }));
 
-        for (String line : banner) {
+        // Add S pattern
+        patternMap.put('S', new CharacterPattern('S', new String[]{
+                "SSSS",
+                "S   ",
+                "SSSS",
+                "   S",
+                "SSSS"
+        }));
+
+        String word = "OOPS";
+
+        // Print banner horizontally
+        for (int row = 0; row < 5; row++) {
+            StringBuilder line = new StringBuilder();
+
+            for (char ch : word.toCharArray()) {
+                CharacterPattern cp = patternMap.get(ch);
+                if (cp != null) {
+                    line.append(cp.getPattern()[row]).append("   ");
+                }
+            }
+
             System.out.println(line);
         }
-    }
-
-    static String printO(int line) {
-        switch(line) {
-            case 1:
-            case 5: return "OOOO";
-            case 2:
-            case 3:
-            case 4: return "O  O";
-        }
-        return "";
-    }
-
-    static String printP(int line) {
-        switch(line) {
-            case 1: return "PPPP";
-            case 2:
-            case 3: return "P  P";
-            case 4:
-            case 5: return "P   ";
-        }
-        return "";
-    }
-
-    static String printS(int line) {
-        switch(line) {
-            case 1: return "SSSS";
-            case 2: return "S   ";
-            case 3: return "SSS ";
-            case 4: return "   S";
-            case 5: return "SSSS";
-        }
-        return "";
     }
 }
